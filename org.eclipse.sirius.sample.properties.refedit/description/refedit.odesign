@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:properties="http://www.eclipse.org/sirius/properties/1.0.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/description/tool/1.1.0" name="refedit" version="11.0.0.201601261200">
+  <ownedViewpoints name="Reference edition example" modelFileExtension="ecore">
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="Simple diagram" domainClass="ecore.EPackage" enablePopupBars="true">
+      <defaultLayer name="Default">
+        <containerMappings name="Package" semanticCandidatesExpression="feature:eSubpackages" domainClass="ecore.EPackage" reusedContainerMappings="//@ownedViewpoints[name='Reference%20edition%20example']/@ownedRepresentations[name='Simple%20diagram']/@defaultLayer/@containerMappings[name='Class'] //@ownedViewpoints[name='Reference%20edition%20example']/@ownedRepresentations[name='Simple%20diagram']/@defaultLayer/@containerMappings[name='Package']">
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+          </style>
+        </containerMappings>
+        <containerMappings name="Class" semanticCandidatesExpression="feature:eClassifiers" domainClass="ecore.EClass" childrenPresentation="List">
+          <subNodeMappings name="Reference" semanticCandidatesExpression="feature:eContents" domainClass="ecore.EReference">
+            <style xsi:type="style:SquareDescription" labelExpression="aql:self.name + ' : ' + self.eType.name" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedJavaExtensions qualifiedClassName="org.eclipse.sirius.sample.properties.refedit.ReferenceServices"/>
+  </ownedViewpoints>
+  <extensions xsi:type="properties:ViewExtensionDescription" identifier="Reference Edition Example">
+    <pages identifier="General" labelExpression="General" groups="//@extensions.0/@groups.0 //@extensions.0/@groups.1"/>
+    <groups identifier="Reference" labelExpression="Properties" domainClass="ecore.EReference">
+      <controls xsi:type="properties:ReferenceDescription" identifier="Type" labelExpression="Type:" valueExpression="aql:self.eType" displayExpression="aql:value.name">
+        <onClickOperation>
+          <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:self"/>
+        </onClickOperation>
+        <actions labelExpression="...">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:self">
+              <subModelOperations xsi:type="tool:SetValue" featureName="eType" valueExpression="aql:self.selectEObject('Type of ' + self.name, 'Select the type for reference &quot;' + self.name + '&quot;', self.eContainer(ecore::EPackage).eAllContents(ecore::EClass), self.eType)"/>
+            </firstModelOperations>
+          </initialOperation>
+        </actions>
+        <actions labelExpression="Unset">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:Unset" featureName="eType" elementExpression="aql:self.eType"/>
+          </initialOperation>
+        </actions>
+      </controls>
+    </groups>
+    <groups identifier="Class" labelExpression="Properties" domainClass="ecore.EClass">
+      <controls xsi:type="properties:ReferenceDescription" identifier="Supertypes" labelExpression="Supertypes:" multiple="true" valueExpression="aql:self.eSuperTypes" displayExpression="aql:value.eefViewText()">
+        <onClickOperation>
+          <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:self"/>
+        </onClickOperation>
+        <actions labelExpression="Add">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:self">
+              <subModelOperations xsi:type="tool:SetValue" featureName="eSuperTypes" valueExpression="aql:self.selectEObject('', '', self.eContainer(ecore::EPackage).eAllContents(ecore::EClass), self)"/>
+            </firstModelOperations>
+          </initialOperation>
+        </actions>
+        <actions labelExpression="Remove">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:self">
+              <subModelOperations xsi:type="tool:If" conditionExpression="var:selection">
+                <subModelOperations xsi:type="tool:Unset" featureName="eSuperTypes" elementExpression="var:selection"/>
+              </subModelOperations>
+            </firstModelOperations>
+          </initialOperation>
+        </actions>
+        <actions labelExpression="Up">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.moveUp(self.eSuperTypes, selection->first())"/>
+          </initialOperation>
+        </actions>
+        <actions labelExpression="Down">
+          <initialOperation>
+            <firstModelOperations xsi:type="tool:If" conditionExpression="var:selection">
+              <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.moveDown(self.eSuperTypes, selection->first())"/>
+            </firstModelOperations>
+          </initialOperation>
+        </actions>
+      </controls>
+    </groups>
+  </extensions>
+</description:Group>
